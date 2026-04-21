@@ -9,21 +9,21 @@ export default function LoginPage() {
         <p className="eyebrow">Smart Campus Operations Hub</p>
         <h1>Operational control for every room, lab, and technician lane.</h1>
         <p className="subcopy">
-          Secure sign-in with Google, role-based dashboards, and protected workflows for incident and booking management.
+          Plan bookings, monitor facilities, and manage incidents from one unified campus workspace.
         </p>
         <button className="google-btn" onClick={loginWithGoogle}>
           <span>G</span>
-          Continue with Google
+          Sign in to Workspace
         </button>
       </section>
       <aside className="signal-panel">
         <div className="signal-card">
-          <h3>Roles Enabled</h3>
-          <p>USER, ADMIN, MANAGER, TECHNICIAN</p>
+          <h3>Bookings at a Glance</h3>
+          <p>Track room, lab, and equipment requests in real time.</p>
         </div>
         <div className="signal-card">
-          <h3>Security</h3>
-          <p>OAuth 2.0 + backend RBAC + protected frontend routes</p>
+          <h3>Maintenance Flow</h3>
+          <p>Receive fault updates quickly and keep resolution progress visible.</p>
         </div>
       </aside>
     </main>

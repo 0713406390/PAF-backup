@@ -23,7 +23,7 @@ function HomePage() {
         <p className="eyebrow">Operations Snapshot</p>
         <h1>Welcome, {user?.fullName}</h1>
         <p>
-          Role detected: <span className="role-pill">{user?.role}</span>
+          Access level: <span className="role-pill">{user?.role}</span>
         </p>
       </div>
 

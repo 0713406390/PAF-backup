@@ -16,7 +16,7 @@ export default function AuthCallbackPage() {
 
   return (
     <main className="panel route-center">
-      <p className="pulse">Finalizing secure sign-in...</p>
+      <p className="pulse">Preparing your campus dashboard...</p>
     </main>
   );
 }

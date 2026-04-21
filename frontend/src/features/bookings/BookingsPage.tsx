@@ -21,7 +21,7 @@ export default function BookingsPage() {
   return (
     <main className="panel">
       <h1>Facility and Asset Bookings</h1>
-      <p className="muted">Live reservation stream from secure booking endpoints.</p>
+      <p className="muted">View current requests, approvals, and resource availability.</p>
       <div className="table-wrap">
         <table>
           <thead>
