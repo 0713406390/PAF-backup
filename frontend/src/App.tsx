@@ -41,6 +41,33 @@ function HomePage() {
           <p>87% room usage this week</p>
         </article>
       </section>
+
+      <section className="workspace-grid">
+        <article className="workspace-card">
+          <h3>Today's Focus</h3>
+          <ul>
+            <li>Review high-priority lab equipment bookings</li>
+            <li>Escalate unresolved tickets older than 24h</li>
+            <li>Confirm tomorrow's facility readiness</li>
+          </ul>
+        </article>
+        <article className="workspace-card">
+          <h3>Quick Navigation</h3>
+          <div className="quick-links">
+            <Link to="/bookings" className="quick-link">
+              Open Bookings
+            </Link>
+            <Link to="/incidents" className="quick-link">
+              Open Incidents
+            </Link>
+            {(user?.role === "MANAGER" || user?.role === "ADMIN") && (
+              <Link to="/manager" className="quick-link">
+                Open Manager Deck
+              </Link>
+            )}
+          </div>
+        </article>
+      </section>
     </main>
   );
 }
@@ -50,7 +77,10 @@ function TopBar() {
 
   return (
     <header className="topbar">
-      <div className="brand">Smart Campus Hub</div>
+      <div className="brand-wrap">
+        <div className="brand">Smart Campus Hub</div>
+        <p className="brand-subtitle">Operations and Facility Center</p>
+      </div>
       <nav>
         <Link to="/">Home</Link>
         {isAuthenticated && <Link to="/bookings">Bookings</Link>}
@@ -64,11 +94,11 @@ function TopBar() {
       <div className="actions">
         {isAuthenticated ? (
           <button className="ghost-btn" onClick={() => void logout()}>
-            Sign out
+            Log out
           </button>
         ) : (
           <Link className="ghost-btn" to="/login">
-            Sign in
+            Access Portal
           </Link>
         )}
       </div>

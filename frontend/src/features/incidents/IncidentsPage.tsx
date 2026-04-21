@@ -31,8 +31,13 @@ export default function IncidentsPage() {
 
   return (
     <main className="panel">
-      <h1>Maintenance and Incident Workflow</h1>
-      <p className="muted">Fault reporting, technician updates, and status transitions.</p>
+      <div className="section-head">
+        <div>
+          <h1>Maintenance and Incident Workflow</h1>
+          <p className="muted">Fault reporting, technician updates, and status transitions.</p>
+        </div>
+        <span className="stat-chip">{rows.length} Open Tickets</span>
+      </div>
       {message && <p className="notice">{message}</p>}
       <div className="incident-grid">
         {rows.map((row) => (
@@ -42,7 +47,7 @@ export default function IncidentsPage() {
               Ticket #{row.id} <span className={`tag ${row.status.toLowerCase()}`}>{row.status}</span>
             </p>
             {canResolve && (
-              <button onClick={() => void resolveIncident(row.id)}>Mark Resolved</button>
+              <button onClick={() => void resolveIncident(row.id)}>Resolve Ticket</button>
             )}
           </article>
         ))}

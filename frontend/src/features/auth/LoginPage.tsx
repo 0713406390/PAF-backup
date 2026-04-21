@@ -7,23 +7,23 @@ export default function LoginPage() {
     <main className="hero-shell">
       <section className="hero-panel">
         <p className="eyebrow">Smart Campus Operations Hub</p>
-        <h1>Operational control for every room, lab, and technician lane.</h1>
+        <h1>Run a smarter campus day with one unified operations workspace.</h1>
         <p className="subcopy">
-          Plan bookings, monitor facilities, and manage incidents from one unified campus workspace.
+          Coordinate facilities, equipment, and maintenance workflows through a clean command interface designed for speed.
         </p>
         <button className="google-btn" onClick={loginWithGoogle}>
           <span>G</span>
-          Sign in to Workspace
+          Enter Campus Workspace
         </button>
       </section>
       <aside className="signal-panel">
         <div className="signal-card">
-          <h3>Bookings at a Glance</h3>
-          <p>Track room, lab, and equipment requests in real time.</p>
+          <h3>Bookings Pulse</h3>
+          <p>Track room, lab, and equipment requests with live status visibility.</p>
         </div>
         <div className="signal-card">
-          <h3>Maintenance Flow</h3>
-          <p>Receive fault updates quickly and keep resolution progress visible.</p>
+          <h3>Maintenance Stream</h3>
+          <p>Keep fault reporting, assignment, and resolution progress aligned in one place.</p>
         </div>
       </aside>
     </main>

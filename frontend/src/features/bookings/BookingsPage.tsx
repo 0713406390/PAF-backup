@@ -20,8 +20,13 @@ export default function BookingsPage() {
 
   return (
     <main className="panel">
-      <h1>Facility and Asset Bookings</h1>
-      <p className="muted">View current requests, approvals, and resource availability.</p>
+      <div className="section-head">
+        <div>
+          <h1>Facility and Asset Bookings</h1>
+          <p className="muted">View current requests, approvals, and resource availability.</p>
+        </div>
+        <span className="stat-chip">{rows.length} Active Requests</span>
+      </div>
       <div className="table-wrap">
         <table>
           <thead>
