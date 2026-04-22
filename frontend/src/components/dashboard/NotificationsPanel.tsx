@@ -1,3 +1,4 @@
+import { BellRing, Clock } from "lucide-react";
 import { useNotifications } from "../../hooks/useNotifications";
 
 function formatTime(timestamp: string) {
@@ -5,7 +6,7 @@ function formatTime(timestamp: string) {
   if (Number.isNaN(value.getTime())) {
     return "Just now";
   }
-  return value.toLocaleString();
+  return value.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 export default function NotificationsPanel() {
@@ -13,21 +14,33 @@ export default function NotificationsPanel() {
 
   return (
     <article className="workspace-card notifications-panel">
-      <div className="section-head compact-head">
-        <h3>Unread Alerts</h3>
-        <span className="stat-chip">{rows.length}</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <BellRing size={20} color="var(--primary)" />
+          <h3>Notifications</h3>
+        </div>
+        {rows.length > 0 && <span className="role-pill">{rows.length} new</span>}
       </div>
-      {isLoading && <p className="muted">Loading notifications...</p>}
-      {!isLoading && rows.length === 0 && <p className="muted">No unread alerts at the moment.</p>}
+      
+      {isLoading && <p className="muted">Loading alerts...</p>}
+      {!isLoading && rows.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+          <p className="muted">All caught up!</p>
+        </div>
+      )}
+      
       {!isLoading && rows.length > 0 && (
-        <ul className="notification-list">
+        <div className="notification-list">
           {rows.map((item) => (
-            <li key={item.id} className="notification-item">
-              <p>{item.message}</p>
-              <time dateTime={item.createdAt}>{formatTime(item.createdAt)}</time>
-            </li>
+            <div key={item.id} className="notification-item">
+              <p style={{ fontSize: '0.935rem', fontWeight: 500, marginBottom: '0.35rem' }}>{item.message}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-muted)', fontSize: '0.75rem' }}>
+                <Clock size={12} />
+                <span>{formatTime(item.createdAt)}</span>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </article>
   );

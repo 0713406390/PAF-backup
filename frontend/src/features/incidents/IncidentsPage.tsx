@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import client from "../../api/client";
 import ProtectedButton from "../../components/shared/ProtectedButton";
 import { useAuth } from "../../context/AuthContext";
+import { Wrench, CheckCircle, UserPlus, Info } from "lucide-react";
 
 interface IncidentRow {
   id: number;
@@ -16,8 +17,12 @@ export default function IncidentsPage() {
   const [message, setMessage] = useState("");
 
   const loadRows = async () => {
-    const response = await client.get<IncidentRow[]>("/incidents");
-    setRows(response.data);
+    try {
+      const response = await client.get<IncidentRow[]>("/incidents");
+      setRows(response.data);
+    } catch (err) {
+      console.error("Failed to load incidents", err);
+    }
   };
 
   useEffect(() => {
@@ -26,7 +31,8 @@ export default function IncidentsPage() {
 
   const resolveIncident = async (id: number) => {
     await client.patch(`/incidents/${id}/resolve`);
-    setMessage(`Incident ${id} was resolved.`);
+    setMessage(`Ticket #${id} has been marked as resolved.`);
+    setTimeout(() => setMessage(""), 3000);
     await loadRows();
   };
 
@@ -34,7 +40,8 @@ export default function IncidentsPage() {
     await client.patch(`/incidents/${id}/assign`, {
       technicianEmail: "tech1@campus.edu",
     });
-    setMessage(`Technician was assigned to incident ${id}.`);
+    setMessage(`Technician assigned to Ticket #${id}.`);
+    setTimeout(() => setMessage(""), 3000);
     await loadRows();
   };
 
@@ -42,32 +49,53 @@ export default function IncidentsPage() {
 
   return (
     <main className="panel">
-      <div className="section-head">
-        <div>
-          <h1>Maintenance and Incident Workflow</h1>
-          <p className="muted">Fault reporting, technician updates, and status transitions.</p>
+      <header className="hero-banner" style={{ marginBottom: '2.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+          <Wrench size={32} color="var(--primary)" />
+          <h1>Maintenance Stream</h1>
         </div>
-        <span className="stat-chip">{rows.length} Open Tickets</span>
-      </div>
-      {message && <p className="notice">{message}</p>}
-      <div className="incident-grid">
+        <p className="muted">Track, assign, and resolve facility incidents across campus.</p>
+      </header>
+
+      {message && (
+        <div className="notice" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
+          <Info size={18} color="var(--primary)" />
+          {message}
+        </div>
+      )}
+
+      <div className="incident-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
         {rows.map((row) => (
-          <article className="incident-card" key={row.id}>
-            <h3>{row.title}</h3>
-            <p>
-              Ticket #{row.id} <span className={`tag ${row.status.toLowerCase()}`}>{row.status}</span>
+          <article className="workspace-card" key={row.id} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '1.125rem', margin: 0 }}>{row.title}</h3>
+              <span className={`role-pill`} style={{ 
+                background: row.status === 'RESOLVED' ? '#dcfce7' : '#fef3c7',
+                color: row.status === 'RESOLVED' ? '#166534' : '#92400e'
+              }}>
+                {row.status}
+              </span>
+            </div>
+            
+            <p className="muted" style={{ fontSize: '0.875rem', marginBottom: '1.5rem', flex: 1 }}>
+              Ticket #{row.id} • {row.assignedTechnicianEmail ? `Assigned to ${row.assignedTechnicianEmail}` : 'Unassigned'}
             </p>
-            {row.assignedTechnicianEmail && <p className="muted">Assigned: {row.assignedTechnicianEmail}</p>}
-            {canResolve && (
-              <button onClick={() => void resolveIncident(row.id)}>Resolve Ticket</button>
-            )}
-            <ProtectedButton
-              className="accent-btn"
-              allowedRoles={["ADMIN"]}
-              onClick={() => void assignTechnician(row.id)}
-            >
-              Assign Technician
-            </ProtectedButton>
+
+            <div style={{ display: 'flex', gap: '0.75rem', marginTop: 'auto' }}>
+              {canResolve && row.status !== 'RESOLVED' && (
+                <button className="accent-btn" onClick={() => void resolveIncident(row.id)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1, justifyContent: 'center' }}>
+                  <CheckCircle size={16} /> Resolve
+                </button>
+              )}
+              <ProtectedButton
+                className="ghost-btn"
+                allowedRoles={["ADMIN"]}
+                onClick={() => void assignTechnician(row.id)}
+                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1, justifyContent: 'center' }}
+              >
+                <UserPlus size={16} /> Assign
+              </ProtectedButton>
+            </div>
           </article>
         ))}
       </div>

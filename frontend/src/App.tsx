@@ -17,27 +17,27 @@ function TopBar() {
   return (
     <header className="topbar">
       <div className="brand-wrap">
-        <div className="brand">Smart Campus Hub</div>
-        <p className="brand-subtitle">Operations and Facility Center</p>
+        <div className="brand">SmartCampus</div>
+        <p className="brand-subtitle">Operations & Management</p>
       </div>
       <nav>
-        <Link to="/">Home</Link>
+        <Link to="/">Dashboard</Link>
         {isAuthenticated && <Link to="/bookings">Bookings</Link>}
         {isAuthenticated && <Link to="/incidents">Incidents</Link>}
         {user?.role === "ADMIN" && <Link to="/admin">Admin</Link>}
-        {(user?.role === "MANAGER" || user?.role === "ADMIN") && <Link to="/manager">Manager</Link>}
-        {(user?.role === "TECHNICIAN" || user?.role === "MANAGER" || user?.role === "ADMIN") && (
-          <Link to="/technician">Technician</Link>
-        )}
+        {(user?.role === "MANAGER" || user?.role === "ADMIN") && <Link to="/manager">Manager Deck</Link>}
       </nav>
       <div className="actions">
         {isAuthenticated ? (
-          <button className="ghost-btn" onClick={() => void logout()}>
-            Log out
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <span className="role-pill">{user?.role}</span>
+            <button className="ghost-btn" onClick={() => void logout()}>
+              Log out
+            </button>
+          </div>
         ) : (
           <Link className="ghost-btn" to="/login">
-            Access Portal
+            Enter Hub
           </Link>
         )}
       </div>
