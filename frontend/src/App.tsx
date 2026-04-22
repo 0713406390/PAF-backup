@@ -1,47 +1,107 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Navigate, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/shared/ProtectedRoute";
+import { useAuth } from "./context/AuthContext";
+import AuthCallbackPage from "./features/auth/AuthCallbackPage";
+import LoginPage from "./features/auth/LoginPage";
+import UnauthorizedPage from "./features/auth/UnauthorizedPage";
+import BookingsPage from "./features/bookings/BookingsPage";
+import IncidentsPage from "./features/incidents/IncidentsPage";
+import AdminPage from "./features/operations/AdminPage";
+import ManagerPage from "./features/operations/ManagerPage";
+import TechnicianPage from "./features/operations/TechnicianPage";
+import DashboardPage from "./pages/DashboardPage";
 
-function HomePage() {
+function TopBar() {
+  const { isAuthenticated, user, logout } = useAuth();
+
   return (
-    <main className="container">
-      <h1>Smart Campus Operations Hub</h1>
-      <p>Starter scaffold ready for your assessment workflows.</p>
-      <div className="grid">
-        <section className="card">
-          <h2>Bookings</h2>
-          <p>Rooms, labs, and equipment reservation management.</p>
-        </section>
-        <section className="card">
-          <h2>Maintenance</h2>
-          <p>Incident reporting, technician updates, and resolutions.</p>
-        </section>
+    <header className="topbar">
+      <div className="brand-wrap">
+        <div className="brand">SmartCampus</div>
+        <p className="brand-subtitle">Operations & Management</p>
       </div>
-    </main>
-  );
-}
-
-function PlaceholderPage({ title }: { title: string }) {
-  return (
-    <main className="container">
-      <h1>{title}</h1>
-      <p>Implementation pending.</p>
-    </main>
+      <nav>
+        <Link to="/">Dashboard</Link>
+        {isAuthenticated && <Link to="/bookings">Bookings</Link>}
+        {isAuthenticated && <Link to="/incidents">Incidents</Link>}
+        {user?.role === "ADMIN" && <Link to="/admin">Admin</Link>}
+        {(user?.role === "MANAGER" || user?.role === "ADMIN") && <Link to="/manager">Manager Deck</Link>}
+      </nav>
+      <div className="actions">
+        {isAuthenticated ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <span className="role-pill">{user?.role}</span>
+            <button className="ghost-btn" onClick={() => void logout()}>
+              Log out
+            </button>
+          </div>
+        ) : (
+          <Link className="ghost-btn" to="/login">
+            Enter Hub
+          </Link>
+        )}
+      </div>
+    </header>
   );
 }
 
 export default function App() {
   return (
     <>
-      <header className="topbar">
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/bookings">Bookings</Link>
-          <Link to="/incidents">Incidents</Link>
-        </nav>
-      </header>
+      <TopBar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/bookings" element={<PlaceholderPage title="Bookings" />} />
-        <Route path="/incidents" element={<PlaceholderPage title="Incidents" />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/bookings"
+          element={
+            <ProtectedRoute allowedRoles={["USER", "MANAGER", "ADMIN"]}>
+              <BookingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/incidents"
+          element={
+            <ProtectedRoute allowedRoles={["USER", "TECHNICIAN", "MANAGER", "ADMIN"]}>
+              <IncidentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manager"
+          element={
+            <ProtectedRoute allowedRoles={["MANAGER", "ADMIN"]}>
+              <ManagerPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/technician"
+          element={
+            <ProtectedRoute allowedRoles={["TECHNICIAN", "MANAGER", "ADMIN"]}>
+              <TechnicianPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );
