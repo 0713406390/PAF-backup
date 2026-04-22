@@ -38,7 +38,7 @@ public class AuthController {
                     .body(new AuthUserResponse(null, null, null, null, false));
         }
 
-        AppUser appUser = appUserRepository.findByEmail(email).orElse(null);
+        AppUser appUser = appUserRepository.findByEmailIgnoreCase(email).orElse(null);
         if (appUser == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new AuthUserResponse(null, null, null, null, false));

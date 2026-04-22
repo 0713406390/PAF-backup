@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import client from "../../api/client";
+import ProtectedButton from "../../components/shared/ProtectedButton";
 import { useAuth } from "../../context/AuthContext";
 
 interface IncidentRow {
   id: number;
   title: string;
   status: string;
+  assignedTechnicianEmail?: string | null;
 }
 
 export default function IncidentsPage() {
@@ -25,6 +27,15 @@ export default function IncidentsPage() {
   const resolveIncident = async (id: number) => {
     await client.patch(`/incidents/${id}/resolve`);
     setMessage(`Incident ${id} was resolved.`);
+    await loadRows();
+  };
+
+  const assignTechnician = async (id: number) => {
+    await client.patch(`/incidents/${id}/assign`, {
+      technicianEmail: "tech1@campus.edu",
+    });
+    setMessage(`Technician was assigned to incident ${id}.`);
+    await loadRows();
   };
 
   const canResolve = user?.role === "TECHNICIAN" || user?.role === "MANAGER" || user?.role === "ADMIN";
@@ -46,9 +57,17 @@ export default function IncidentsPage() {
             <p>
               Ticket #{row.id} <span className={`tag ${row.status.toLowerCase()}`}>{row.status}</span>
             </p>
+            {row.assignedTechnicianEmail && <p className="muted">Assigned: {row.assignedTechnicianEmail}</p>}
             {canResolve && (
               <button onClick={() => void resolveIncident(row.id)}>Resolve Ticket</button>
             )}
+            <ProtectedButton
+              className="accent-btn"
+              allowedRoles={["ADMIN"]}
+              onClick={() => void assignTechnician(row.id)}
+            >
+              Assign Technician
+            </ProtectedButton>
           </article>
         ))}
       </div>

@@ -4,6 +4,7 @@
   --teal: #139e9a;
   --amber: #f29a44;
   --ocean: #2b63c6;
+  --sky: #2b63c6;
   --card: rgba(255, 255, 255, 0.9);
   --line: rgba(15, 37, 54, 0.16);
   --shadow: 0 20px 44px rgba(15, 37, 54, 0.12);
@@ -303,6 +304,53 @@ th {
   padding: 0.48rem 0.84rem;
   cursor: pointer;
   font-weight: 700;
+}
+
+.accent-btn {
+  border: 0;
+  background: var(--ocean);
+  color: white;
+  border-radius: 10px;
+  padding: 0.48rem 0.84rem;
+  cursor: pointer;
+  font-weight: 700;
+  margin-left: 0.5rem;
+}
+
+.notifications-panel {
+  min-height: 220px;
+}
+
+.compact-head {
+  margin-bottom: 0.4rem;
+}
+
+.compact-head h3 {
+  margin: 0;
+}
+
+.notification-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.notification-item {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 0.6rem 0.7rem;
+}
+
+.notification-item p {
+  margin: 0;
+}
+
+.notification-item time {
+  color: var(--ink-soft);
+  font-size: 0.8rem;
 }
 
 .tag {

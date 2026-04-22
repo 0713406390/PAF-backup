@@ -39,8 +39,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationException("Email is required from OAuth2 provider");
         }
 
-        AppUser appUser = appUserRepository.findByEmail(email)
-                .map(existing -> updateExisting(existing, fullName))
+        AppUser appUser = appUserRepository.findByEmailIgnoreCase(email)
+            .map(existing -> updateExisting(existing, fullName, email))
                 .orElseGet(() -> createNew(email, fullName));
 
         Set<GrantedAuthority> authorities = new LinkedHashSet<>(oauthUser.getAuthorities());
@@ -49,8 +49,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return new DefaultOAuth2User(authorities, oauthUser.getAttributes(), "email");
     }
 
-    private AppUser updateExisting(AppUser existing, String fullName) {
+    private AppUser updateExisting(AppUser existing, String fullName, String email) {
         existing.setFullName(fullName);
+        existing.setEmail(email);
+        existing.setRole(roleMappingService.resolveRole(email));
         existing.setUpdatedAt(OffsetDateTime.now());
         return appUserRepository.save(existing);
     }

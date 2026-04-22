@@ -1,7 +1,13 @@
 package com.university.smartcampus.controller;
 
+import com.university.smartcampus.dto.BookingResponse;
+import com.university.smartcampus.dto.BookingStatusUpdateRequest;
+import com.university.smartcampus.service.BookingService;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +20,16 @@ import java.util.Map;
 @RequestMapping("/api/bookings")
 public class BookingController {
 
+    private final BookingService bookingService;
+
+    public BookingController(BookingService bookingService) {
+        this.bookingService = bookingService;
+    }
+
     @GetMapping
     @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
-    public List<Map<String, Object>> getBookings() {
-        return List.of(
-                Map.of("id", 1, "asset", "Lab A - 3D Printer", "status", "APPROVED"),
-                Map.of("id", 2, "asset", "Room B-204", "status", "PENDING")
-        );
+    public List<BookingResponse> getBookings() {
+        return bookingService.getBookings();
     }
 
     @PostMapping
@@ -30,5 +39,11 @@ public class BookingController {
                 "message", "Booking request created",
                 "request", payload
         );
+    }
+
+    @PatchMapping("/{bookingId}/status")
+    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
+    public BookingResponse updateBookingStatus(@PathVariable Long bookingId, @Valid @RequestBody BookingStatusUpdateRequest request) {
+        return bookingService.updateBookingStatus(bookingId, request.status(), request.recipientEmail());
     }
 }
