@@ -1,12 +1,13 @@
 :root {
-  --ink: #122432;
-  --paper: #f4f8fb;
-  --mint: #1ea896;
-  --copper: #d87c4a;
-  --sky: #4d8ec7;
-  --card: rgba(255, 255, 255, 0.88);
-  --line: rgba(18, 36, 50, 0.15);
-  font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+  --ink: #0f2536;
+  --ink-soft: rgba(15, 37, 54, 0.72);
+  --teal: #139e9a;
+  --amber: #f29a44;
+  --ocean: #2b63c6;
+  --card: rgba(255, 255, 255, 0.9);
+  --line: rgba(15, 37, 54, 0.16);
+  --shadow: 0 20px 44px rgba(15, 37, 54, 0.12);
+  font-family: "Avenir Next", "Century Gothic", "Segoe UI", sans-serif;
   color: var(--ink);
 }
 
@@ -18,9 +19,9 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 10% 20%, rgba(30, 168, 150, 0.18), transparent 30%),
-    radial-gradient(circle at 85% 15%, rgba(216, 124, 74, 0.2), transparent 30%),
-    linear-gradient(165deg, #eff4f7 0%, #dce9ef 100%);
+    radial-gradient(circle at 9% 18%, rgba(19, 158, 154, 0.26), transparent 34%),
+    radial-gradient(circle at 83% 16%, rgba(242, 154, 68, 0.2), transparent 28%),
+    linear-gradient(152deg, #eef6ff 0%, #dce6f5 52%, #d7f0ef 100%);
 }
 
 .topbar {
@@ -32,15 +33,28 @@ body {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.9rem 1.2rem;
-  border-bottom: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.75);
+  border-bottom: 1px solid rgba(15, 37, 54, 0.1);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
 }
 
+.brand-wrap {
+  display: grid;
+  gap: 0.15rem;
+}
+
 .brand {
-  font-size: 1.1rem;
-  letter-spacing: 0.04em;
+  font-size: 1.14rem;
+  letter-spacing: 0.05em;
   font-weight: 800;
+}
+
+.brand-subtitle {
+  margin: 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
 }
 
 .topbar nav {
@@ -52,41 +66,43 @@ body {
 .topbar a {
   text-decoration: none;
   color: var(--ink);
-  padding: 0.35rem 0.7rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 999px;
-  transition: background 220ms ease;
+  transition: background 220ms ease, transform 220ms ease;
 }
 
 .topbar a:hover {
-  background: rgba(30, 168, 150, 0.18);
+  background: rgba(19, 158, 154, 0.15);
+  transform: translateY(-1px);
 }
 
 .ghost-btn {
   border: 1px solid var(--line);
   background: white;
   color: var(--ink);
-  border-radius: 10px;
-  padding: 0.45rem 0.85rem;
+  border-radius: 12px;
+  padding: 0.48rem 0.9rem;
   cursor: pointer;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .panel {
   max-width: 1100px;
-  margin: 1.2rem auto;
-  padding: 1.4rem;
+  margin: 1.3rem auto;
+  padding: 1.55rem;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 22px;
   background: var(--card);
-  box-shadow: 0 12px 34px rgba(18, 36, 50, 0.08);
+  box-shadow: var(--shadow);
   animation: rise 0.45s ease;
 }
 
 .hero-banner {
-  background: linear-gradient(120deg, rgba(30, 168, 150, 0.2), rgba(77, 142, 199, 0.23));
-  border: 1px solid rgba(30, 168, 150, 0.25);
-  padding: 1rem;
-  border-radius: 14px;
+  background: linear-gradient(120deg, rgba(19, 158, 154, 0.2), rgba(43, 99, 198, 0.18));
+  border: 1px solid rgba(19, 158, 154, 0.28);
+  padding: 1.1rem;
+  border-radius: 16px;
 }
 
 .eyebrow {
@@ -98,24 +114,74 @@ body {
 
 .role-pill {
   display: inline-block;
-  padding: 0.2rem 0.65rem;
+  padding: 0.2rem 0.7rem;
   border-radius: 999px;
-  background: rgba(30, 168, 150, 0.2);
+  background: rgba(19, 158, 154, 0.2);
   font-weight: 700;
 }
 
 .kpi-grid {
-  margin-top: 1rem;
+  margin-top: 1.1rem;
   display: grid;
-  gap: 0.9rem;
+  gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .kpi-card {
   border: 1px solid var(--line);
-  background: white;
-  border-radius: 12px;
-  padding: 0.9rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(244, 251, 251, 0.92));
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.kpi-card h3 {
+  margin: 0 0 0.35rem;
+}
+
+.workspace-grid {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.workspace-card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1rem;
+}
+
+.workspace-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+}
+
+.workspace-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+.quick-links {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.quick-link {
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  background: rgba(255, 255, 255, 0.82);
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.quick-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(19, 158, 154, 0.55);
 }
 
 .hero-shell {
@@ -130,10 +196,10 @@ body {
 .hero-panel,
 .signal-card {
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 18px;
   background: var(--card);
-  padding: 1.2rem;
-  box-shadow: 0 8px 26px rgba(18, 36, 50, 0.08);
+  padding: 1.3rem;
+  box-shadow: 0 10px 28px rgba(15, 37, 54, 0.1);
 }
 
 .subcopy {
@@ -142,10 +208,10 @@ body {
 
 .google-btn {
   border: 0;
-  background: linear-gradient(120deg, var(--mint), var(--sky));
+  background: linear-gradient(120deg, var(--teal), var(--ocean));
   color: white;
   font-weight: 700;
-  padding: 0.62rem 0.95rem;
+  padding: 0.66rem 0.98rem;
   border-radius: 12px;
   cursor: pointer;
   display: inline-flex;
@@ -169,6 +235,10 @@ body {
 
 .table-wrap {
   overflow-x: auto;
+  margin-top: 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.85);
 }
 
 table {
@@ -179,30 +249,60 @@ table {
 th,
 td {
   text-align: left;
-  padding: 0.72rem;
+  padding: 0.78rem;
   border-bottom: 1px solid var(--line);
+}
+
+th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.45rem;
+}
+
+.section-head h1 {
+  margin: 0;
+}
+
+.stat-chip {
+  border: 1px solid rgba(19, 158, 154, 0.35);
+  background: rgba(19, 158, 154, 0.13);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .incident-grid {
   display: grid;
-  gap: 0.9rem;
+  gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
 
 .incident-card {
   border: 1px solid var(--line);
-  background: white;
-  border-radius: 12px;
-  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 14px;
+  padding: 0.9rem;
 }
 
 .incident-card button {
   border: 0;
-  background: var(--copper);
+  background: var(--amber);
   color: white;
-  border-radius: 8px;
-  padding: 0.45rem 0.8rem;
+  border-radius: 10px;
+  padding: 0.48rem 0.84rem;
   cursor: pointer;
+  font-weight: 700;
 }
 
 .tag {
@@ -215,13 +315,13 @@ td {
 
 .tag.approved,
 .tag.resolved {
-  background: rgba(30, 168, 150, 0.2);
+  background: rgba(19, 158, 154, 0.2);
 }
 
 .tag.pending,
 .tag.open,
 .tag.in_progress {
-  background: rgba(216, 124, 74, 0.2);
+  background: rgba(242, 154, 68, 0.26);
 }
 
 .route-center {
@@ -234,14 +334,14 @@ td {
 }
 
 .notice {
-  border: 1px solid rgba(30, 168, 150, 0.4);
-  background: rgba(30, 168, 150, 0.12);
+  border: 1px solid rgba(19, 158, 154, 0.42);
+  background: rgba(19, 158, 154, 0.12);
   border-radius: 10px;
   padding: 0.55rem 0.75rem;
 }
 
 .muted {
-  color: rgba(18, 36, 50, 0.76);
+  color: var(--ink-soft);
 }
 
 .action-link {
@@ -256,6 +356,10 @@ td {
 
   .topbar {
     flex-wrap: wrap;
+  }
+
+  .section-head {
+    flex-direction: column;
   }
 }
 
